@@ -48,11 +48,23 @@ footer{text-align:center;color:#d7c5a4;font-size:12px;margin-top:15px;letter-spa
 <body>
 <div class="app">
  <main class="paper" id="paper">
-  <section class="screen active" id="s1">
+
+  <section class="screen active" id="s0">
+   <div class="center"><div class="stamp">AGENT REGISTRATION</div><div class="label">IDENTITY VERIFICATION REQUIRED</div><div style="font-size:55px;margin:12px">🕵️</div></div>
+   <h1 class="center">Hold it, agent.</h1>
+   <p class="center">This classified mission requires a name before access can be granted.</p>
+   <label class="label" for="agentInput">YOUR AGENT NAME</label>
+   <input id="agentInput" type="text" maxlength="40" placeholder="Enter your name..." autocomplete="given-name">
+   <p class="note center" id="nameNote">Your identity will be printed on the classified file.</p>
+   <div class="buttons"><button class="primary" onclick="registerAgent()">🪪 IDENTIFY AGENT →</button></div>
+   <p class="small center">NO NAME = NO MISSION. VERY OFFICIAL.</p>
+  </section>
+
+  <section class="screen" id="s1">
    <div class="center"><div class="stamp">TOP SECRET</div><div class="label">CLASSIFIED CORRESPONDENCE</div></div>
    <h1 class="center">A mysterious envelope has arrived.</h1>
    <div class="seal">✉</div>
-   <div class="agentline"><b>FOR:</b> AGENT <span class="name">[NAME]</span></div>
+   <div class="agentline"><b>FOR:</b> AGENT <span class="name">Mystery Agent</span></div>
    <div class="agentline"><b>FROM:</b> AGENT 404 — IDENTITY UNKNOWN</div>
    <div class="agentline"><b>STATUS:</b> EXTREMELY CONFIDENTIAL</div>
    <p>Dear Agent,</p><p>You have received information of a suspiciously celebratory nature. Handle with care.</p>
@@ -73,7 +85,7 @@ footer{text-align:center;color:#d7c5a4;font-size:12px;margin-top:15px;letter-spa
 
   <section class="screen" id="s2">
    <div class="center"><div class="stamp">MISSION AUTHORIZATION</div><p class="label">LEVEL 5 CLEARANCE REQUIRED</p></div>
-   <h2>AGENT <span class="name">[NAME]</span>,</h2>
+   <h2>AGENT <span class="name">Mystery Agent</span>,</h2>
    <p>Your participation in this mission is mandatory.</p><p>Refusal is technically an option. A very theoretical option.</p>
    <hr class="rule"><p class="center"><b>DO YOU ACCEPT?</b></p>
    <div class="buttons"><button class="primary" onclick="go(3)">✓ ACCEPT THE MISSION</button></div>
@@ -94,7 +106,7 @@ footer{text-align:center;color:#d7c5a4;font-size:12px;margin-top:15px;letter-spa
   <section class="screen" id="s4">
    <div class="center"><div class="stamp">FILE #BDAY-001</div><p class="label">CLASSIFIED BIRTHDAY DOSSIER</p></div>
    <h2>Birthday detected.</h2>
-   <p><b>AGENT:</b> <span class="name">[NAME]</span></p>
+   <p><b>AGENT:</b> <span class="name">Mystery Agent</span></p>
    <p><b>STATUS:</b> Birthday mode activated</p>
    <p><b>THREAT LEVEL:</b> Extremely old (getting there 💀)</p>
    <p class="center">The file is sealed. Unseal it to continue.</p>
@@ -103,7 +115,7 @@ footer{text-align:center;color:#d7c5a4;font-size:12px;margin-top:15px;letter-spa
 
   <section class="screen center" id="s4b">
    <div class="stamp">MISSION COMPLETE</div><span class="bigcake">🎂</span>
-   <h1>HAPPY BIRTHDAY,<br><span class="name">[NAME]</span>!</h1>
+   <h1>HAPPY BIRTHDAY,<br><span class="name">Mystery Agent</span>!</h1>
    <p>CONGRATULATIONS, AGENT.</p>
    <p>You have survived another 365 days of questionable decisions and iconic behavior.</p>
    <p>May your snacks be unlimited, your problems tiny, your Wi-Fi fast, and your enemies' Wi-Fi slow.</p>
@@ -129,17 +141,56 @@ footer{text-align:center;color:#d7c5a4;font-size:12px;margin-top:15px;letter-spa
  <footer>AGENT 404 • BIRTHDAY INTELLIGENCE DIVISION</footer>
 </div>
 <script>
-let agentName='[NAME]', escapeCount=0, chaosCount=0;
-function setAgentName(name){agentName=(name||'').trim()||'[NAME]';document.querySelectorAll('.name').forEach(el=>el.textContent=agentName)}
-function go(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(n===1.5?'s1b':'s'+n).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});if(n===2){escapeCount=0;const b=document.getElementById('decline');b.style.left='0';b.style.top='12px';b.style.width='100%';document.getElementById('escapeNote').textContent='Psst. Try clicking decline. We dare you.'}}
-function escapeDecline(e){e.preventDefault();escapeCount++;const b=document.getElementById('decline'),area=document.getElementById('escapeArea');const maxX=Math.max(0,area.clientWidth-b.offsetWidth),maxY=Math.max(0,area.clientHeight-b.offsetHeight);b.style.width='auto';b.style.left=Math.random()*maxX+'px';b.style.top=Math.random()*maxY+'px';const lines=['TOO SLOW.','NICE TRY.','NOPE.','MISSED ME.','ACCESS DENIED.','LMAO.'];document.getElementById('escapeNote').textContent=lines[(escapeCount-1)%lines.length]+' ('+escapeCount+' attempts)'}
-function verifyAgent(){const age=document.getElementById('age').value;const note=document.getElementById('verifyNote');if(!age||Number(age)<1||Number(age)>120){note.textContent='INVALID AGE. Please enter a number from 1 to 120.';return}note.textContent='IDENTITY CONFIRMED. (We literally guessed.)';setTimeout(()=>go(4),700)}
+let agentName='Mystery Agent', escapeCount=0, chaosCount=0;
+function setAgentName(name){
+ agentName=(name||'').trim()||'Mystery Agent';
+ document.querySelectorAll('.name').forEach(el=>el.textContent=agentName);
+}
+function registerAgent(){
+ const input=document.getElementById('agentInput');
+ const note=document.getElementById('nameNote');
+ const name=input.value.trim();
+ if(!name){note.textContent='IDENTITY MISSING. Enter a name to continue, agent.';input.focus();return}
+ setAgentName(name);
+ go(1);
+}
+document.getElementById('agentInput').addEventListener('keydown',function(e){if(e.key==='Enter')registerAgent()});
+function go(n){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById(n===1.5?'s1b':'s'+n).classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'});
+ if(n===2){escapeCount=0;const b=document.getElementById('decline');b.style.left='0';b.style.top='12px';b.style.width='100%';document.getElementById('escapeNote').textContent='Psst. Try clicking decline. We dare you.'}
+}
+function escapeDecline(e){
+ e.preventDefault();escapeCount++;
+ const b=document.getElementById('decline'),area=document.getElementById('escapeArea');
+ const maxX=Math.max(0,area.clientWidth-b.offsetWidth),maxY=Math.max(0,area.clientHeight-b.offsetHeight);
+ b.style.width='auto';b.style.left=Math.random()*maxX+'px';b.style.top=Math.random()*maxY+'px';
+ const lines=['TOO SLOW.','NICE TRY.','NOPE.','MISSED ME.','ACCESS DENIED.','LMAO.'];
+ document.getElementById('escapeNote').textContent=lines[(escapeCount-1)%lines.length]+' ('+escapeCount+' attempts)';
+}
+function verifyAgent(){
+ const age=document.getElementById('age').value,note=document.getElementById('verifyNote');
+ if(!age||Number(age)<1||Number(age)>120){note.textContent='INVALID AGE. Please enter a number from 1 to 120.';return}
+ note.textContent='IDENTITY CONFIRMED. (We literally guessed.)';setTimeout(()=>go(4),700)
+}
 function revealBirthday(){go('4b');confetti()}
-function confetti(){for(let i=0;i<75;i++){const c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.animationDelay=Math.random()*1.5+'s';c.style.background=['#a52b25','#d5a84c','#53664a','#e8c9a5','#725a89'][Math.floor(Math.random()*5)];c.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(c);setTimeout(()=>c.remove(),5000)}}
-function chaos(){chaosCount++;const t=document.getElementById('chaosText');const p=document.getElementById('paper');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');const messages=['YOU FOOL. CHAOS PROTOCOL ACTIVATED.','THE BUTTON WAS NOT A SUGGESTION.','AGENT 404 IS DISAPPOINTED. (A LITTLE.)','CONGRATULATIONS. YOU PLAYED YOURSELF.','BIRTHDAY CHAOS: 100% COMPLETE.'];t.textContent=messages[Math.min(chaosCount-1,messages.length-1)];if(chaosCount>=2){document.getElementById('finishButtons').style.display='flex';confetti()}}
-function restart(){chaosCount=0;document.getElementById('chaosText').textContent='';document.getElementById('finishButtons').style.display='none';document.getElementById('age').value='';go(1)}
-// Personalize by changing this line:
-setAgentName('YOUR FRIEND');
+function confetti(){
+ for(let i=0;i<75;i++){const c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.animationDelay=Math.random()*1.5+'s';c.style.background=['#a52b25','#d5a84c','#53664a','#e8c9a5','#725a89'][Math.floor(Math.random()*5)];c.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(c);setTimeout(()=>c.remove(),5000)}
+}
+function chaos(){
+ chaosCount++;const t=document.getElementById('chaosText'),p=document.getElementById('paper');
+ p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');
+ const messages=['YOU FOOL. CHAOS PROTOCOL ACTIVATED.','THE BUTTON WAS NOT A SUGGESTION.','AGENT 404 IS DISAPPOINTED. (A LITTLE.)','CONGRATULATIONS. YOU PLAYED YOURSELF.','BIRTHDAY CHAOS: 100% COMPLETE.'];
+ t.textContent=messages[Math.min(chaosCount-1,messages.length-1)];
+ if(chaosCount>=2){document.getElementById('finishButtons').style.display='flex';confetti()}
+}
+function restart(){
+ chaosCount=0;document.getElementById('chaosText').textContent='';
+ document.getElementById('finishButtons').style.display='none';
+ document.getElementById('age').value='';document.getElementById('agentInput').value='';
+ setAgentName('Mystery Agent');go(0)
+}
 </script>
 </body>
 </html>
