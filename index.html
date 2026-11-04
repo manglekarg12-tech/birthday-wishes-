@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operation: Birthday Chaos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=DM+Sans:wght@400;600;700&display=swap');
+:root{--paper:#f2e5c8;--ink:#34291e;--red:#a52b25;--green:#53664a;--shadow:#4c3827}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#24231f;color:var(--ink);font-family:'Special Elite',monospace;display:flex;align-items:center;justify-content:center;padding:18px;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 20%,#4c493f 0,transparent 35%),radial-gradient(circle at 80% 90%,#514333 0,transparent 30%);pointer-events:none}
+.app{width:min(100%,520px);position:relative;z-index:1}
+.paper{background:var(--paper);padding:clamp(22px,6vw,38px);border:1px solid #d0b990;box-shadow:0 18px 50px #0008;position:relative;min-height:570px;background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,#8b765015 28px)}
+.paper:after{content:"";position:absolute;inset:9px;border:1px solid #b9a47c66;pointer-events:none}
+.stamp{display:inline-block;color:var(--red);border:3px solid var(--red);padding:7px 10px;transform:rotate(-7deg);font-size:clamp(15px,4vw,21px);font-weight:bold;letter-spacing:2px;margin:5px 0 20px}
+h1,h2{line-height:1.15;margin:12px 0 18px}h1{font-size:clamp(27px,7vw,38px)}h2{font-size:clamp(23px,6vw,30px)}
+p{font-size:17px;line-height:1.65;margin:13px 0}
+.small{font-size:13px;letter-spacing:1px}
+.rule{border:0;border-top:1px dashed #9e8964;margin:20px 0}
+.label{font-size:12px;letter-spacing:2px;color:#6e5940}
+.buttons{display:flex;flex-direction:column;gap:12px;margin-top:25px}
+button{font-family:'Special Elite',monospace;font-size:16px;letter-spacing:.5px;padding:15px 12px;border:2px solid var(--ink);background:#e8d7b4;color:var(--ink);box-shadow:4px 4px 0 var(--shadow);cursor:pointer;transition:transform .15s,background .15s;touch-action:manipulation}
+button:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--shadow)}
+button.primary{background:var(--green);color:#fff8e8;border-color:#34432e}
+button.danger{background:#ead0c5;color:#85231e;border-color:#85231e}
+button:disabled{opacity:.65}
+.screen{display:none;animation:appear .4s ease}.screen.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.center{text-align:center}
+.seal{width:74px;height:74px;border-radius:50%;background:#9f2924;color:#f6dfb5;display:grid;place-items:center;margin:18px auto;font-size:25px;box-shadow:inset 0 0 0 5px #7f1d1b,inset 0 0 0 7px #bc5143,0 4px 8px #4b291c55}
+.agentline{border-bottom:1px solid #8e7957;padding:8px 0}
+input{font-family:inherit;background:#f7ebd1;border:1px solid #8e7957;padding:12px;width:100%;font-size:18px;color:var(--ink);margin:8px 0}
+#decline{position:relative;transition:left .13s,top .13s;z-index:5}
+.escape-area{position:relative;height:115px;margin-top:15px}
+.escape-area button{position:absolute;left:0;top:12px;width:100%}
+.note{font-size:13px;color:#766044}
+.bigcake{font-size:75px;animation:bounce 1.2s infinite alternate;display:block;margin:15px}
+@keyframes bounce{to{transform:translateY(-8px) rotate(4deg)}}
+.shake{animation:shake .45s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.confetti{position:fixed;top:-15px;width:9px;height:13px;z-index:20;animation:fall 3s linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.1}}
+footer{text-align:center;color:#d7c5a4;font-size:12px;margin-top:15px;letter-spacing:1px}
+@media(max-height:700px){.paper{min-height:0}.buttons{margin-top:16px}p{line-height:1.45}}
+</style>
+</head>
+<body>
+<div class="app">
+ <main class="paper" id="paper">
+  <section class="screen active" id="s1">
+   <div class="center"><div class="stamp">TOP SECRET</div><div class="label">CLASSIFIED CORRESPONDENCE</div></div>
+   <h1 class="center">A mysterious envelope has arrived.</h1>
+   <div class="seal">✉</div>
+   <div class="agentline"><b>FOR:</b> AGENT <span class="name">[NAME]</span></div>
+   <div class="agentline"><b>FROM:</b> AGENT 404 — IDENTITY UNKNOWN</div>
+   <div class="agentline"><b>STATUS:</b> EXTREMELY CONFIDENTIAL</div>
+   <p>Dear Agent,</p><p>You have received information of a suspiciously celebratory nature. Handle with care.</p>
+   <p class="center"><b>What shall we do with this envelope?</b></p>
+   <div class="buttons">
+    <button class="primary" onclick="go(2)">✉ OPEN THE MISSION</button>
+    <button class="danger" onclick="go(1.5)">🗑 THROW IT IN THE DUSTBIN</button>
+   </div>
+  </section>
+
+  <section class="screen" id="s1b">
+   <div class="center"><div class="stamp">ARREST NOTICE</div><h1>YOU HAVE BEEN ARRESTED.</h1><div style="font-size:58px">🚨</div></div>
+   <p><b>CRIME:</b> Disposing of classified birthday information.</p>
+   <p><b>SENTENCE:</b> Mandatory celebration and cake consumption.</p>
+   <p class="center">This is what happens when you mess with Agent 404.</p>
+   <div class="buttons"><button class="primary" onclick="go(1)">↻ TRY AGAIN</button></div>
+  </section>
+
+  <section class="screen" id="s2">
+   <div class="center"><div class="stamp">MISSION AUTHORIZATION</div><p class="label">LEVEL 5 CLEARANCE REQUIRED</p></div>
+   <h2>AGENT <span class="name">[NAME]</span>,</h2>
+   <p>Your participation in this mission is mandatory.</p><p>Refusal is technically an option. A very theoretical option.</p>
+   <hr class="rule"><p class="center"><b>DO YOU ACCEPT?</b></p>
+   <div class="buttons"><button class="primary" onclick="go(3)">✓ ACCEPT THE MISSION</button></div>
+   <div class="escape-area" id="escapeArea"><button class="danger" id="decline" onclick="escapeDecline(event)">✕ DECLINE THE MISSION</button></div>
+   <p class="note center" id="escapeNote">Psst. Try clicking decline. We dare you.</p>
+  </section>
+
+  <section class="screen" id="s3">
+   <div class="center"><div class="stamp">IDENTITY CHECK</div><div style="font-size:50px">🕵️</div></div>
+   <h2>Agent verification required.</h2>
+   <p>Before proceeding, confirm your highly classified age.</p>
+   <label class="label" for="age">CURRENT AGE (IN YEARS)</label>
+   <input id="age" type="number" min="1" max="120" placeholder="Enter your age…">
+   <div class="buttons"><button class="primary" onclick="verifyAgent()">SUBMIT FOR VERIFICATION →</button></div>
+   <p class="note center" id="verifyNote">Your information will be handled with absolutely fake seriousness.</p>
+  </section>
+
+  <section class="screen" id="s4">
+   <div class="center"><div class="stamp">FILE #BDAY-001</div><p class="label">CLASSIFIED BIRTHDAY DOSSIER</p></div>
+   <h2>Birthday detected.</h2>
+   <p><b>AGENT:</b> <span class="name">[NAME]</span></p>
+   <p><b>STATUS:</b> Birthday mode activated</p>
+   <p><b>THREAT LEVEL:</b> Extremely old (getting there 💀)</p>
+   <p class="center">The file is sealed. Unseal it to continue.</p>
+   <div class="buttons"><button class="primary" onclick="revealBirthday()">🔓 UNSEAL THE FILE</button></div>
+  </section>
+
+  <section class="screen center" id="s4b">
+   <div class="stamp">MISSION COMPLETE</div><span class="bigcake">🎂</span>
+   <h1>HAPPY BIRTHDAY,<br><span class="name">[NAME]</span>!</h1>
+   <p>CONGRATULATIONS, AGENT.</p>
+   <p>You have survived another 365 days of questionable decisions and iconic behavior.</p>
+   <p>May your snacks be unlimited, your problems tiny, your Wi-Fi fast, and your enemies' Wi-Fi slow.</p>
+   <p><b>Stay legendary. Stay silly. Never trust a suspicious envelope.</b></p>
+   <div class="buttons"><button class="primary" onclick="go(5)">CONTINUE TO BONUS FILE →</button></div>
+  </section>
+
+  <section class="screen center" id="s5">
+   <div class="stamp">⚠️ RESTRICTED ⚠️</div><h2>THE FORBIDDEN BUTTON</h2>
+   <p>THE FOLLOWING BUTTON IS STRICTLY PROHIBITED.</p><p><b>DO NOT PRESS IT.</b></p>
+   <div class="buttons"><button class="danger" onclick="chaos()">⛔ DO NOT PRESS</button></div>
+   <p id="chaosText" aria-live="polite"></p>
+   <div class="buttons" id="finishButtons" style="display:none"><button class="primary" onclick="go(6)">CLOSE CLASSIFIED FILE</button></div>
+  </section>
+
+  <section class="screen center" id="s6">
+   <div class="stamp">AGENT 404 SIGNING OFF</div><div style="font-size:60px">🕶️</div>
+   <h1>MISSION COMPLETE.</h1><p>You've officially completed your birthday mission.</p>
+   <p>See you next year, fossil.</p><hr class="rule"><p class="small">THIS MESSAGE WILL SELF-DESTRUCT…</p>
+   <div class="buttons"><button onclick="restart()">↻ REPLAY THE MISSION</button></div>
+  </section>
+ </main>
+ <footer>AGENT 404 • BIRTHDAY INTELLIGENCE DIVISION</footer>
+</div>
+<script>
+let agentName='[NAME]', escapeCount=0, chaosCount=0;
+function setAgentName(name){agentName=(name||'').trim()||'[NAME]';document.querySelectorAll('.name').forEach(el=>el.textContent=agentName)}
+function go(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(n===1.5?'s1b':'s'+n).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});if(n===2){escapeCount=0;const b=document.getElementById('decline');b.style.left='0';b.style.top='12px';b.style.width='100%';document.getElementById('escapeNote').textContent='Psst. Try clicking decline. We dare you.'}}
+function escapeDecline(e){e.preventDefault();escapeCount++;const b=document.getElementById('decline'),area=document.getElementById('escapeArea');const maxX=Math.max(0,area.clientWidth-b.offsetWidth),maxY=Math.max(0,area.clientHeight-b.offsetHeight);b.style.width='auto';b.style.left=Math.random()*maxX+'px';b.style.top=Math.random()*maxY+'px';const lines=['TOO SLOW.','NICE TRY.','NOPE.','MISSED ME.','ACCESS DENIED.','LMAO.'];document.getElementById('escapeNote').textContent=lines[(escapeCount-1)%lines.length]+' ('+escapeCount+' attempts)'}
+function verifyAgent(){const age=document.getElementById('age').value;const note=document.getElementById('verifyNote');if(!age||Number(age)<1||Number(age)>120){note.textContent='INVALID AGE. Please enter a number from 1 to 120.';return}note.textContent='IDENTITY CONFIRMED. (We literally guessed.)';setTimeout(()=>go(4),700)}
+function revealBirthday(){go('4b');confetti()}
+function confetti(){for(let i=0;i<75;i++){const c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.animationDelay=Math.random()*1.5+'s';c.style.background=['#a52b25','#d5a84c','#53664a','#e8c9a5','#725a89'][Math.floor(Math.random()*5)];c.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(c);setTimeout(()=>c.remove(),5000)}}
+function chaos(){chaosCount++;const t=document.getElementById('chaosText');const p=document.getElementById('paper');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');const messages=['YOU FOOL. CHAOS PROTOCOL ACTIVATED.','THE BUTTON WAS NOT A SUGGESTION.','AGENT 404 IS DISAPPOINTED. (A LITTLE.)','CONGRATULATIONS. YOU PLAYED YOURSELF.','BIRTHDAY CHAOS: 100% COMPLETE.'];t.textContent=messages[Math.min(chaosCount-1,messages.length-1)];if(chaosCount>=2){document.getElementById('finishButtons').style.display='flex';confetti()}}
+function restart(){chaosCount=0;document.getElementById('chaosText').textContent='';document.getElementById('finishButtons').style.display='none';document.getElementById('age').value='';go(1)}
+// Personalize by changing this line:
+setAgentName('YOUR FRIEND');
+</script>
+</body>
+</html>
